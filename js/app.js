@@ -1,15 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -24,6 +12,62 @@ function shuffle(array) {
 
     return array;
 }
+
+
+
+
+
+
+function shuffle_deck() {
+  // Clear the deck
+  document.querySelector(".deck").innerHTML = ""
+
+  // List of our available cards
+  let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "anchor",
+               "leaf", "bicycle", "diamond", "bomb", "leaf", "bomb", "bolt",
+               "bicycle", "paper-plane-o", "cube"];
+
+  // Card html template
+  const card_html = '<li class="card" data-card-name="REPLACE"><i class="fa fa-REPLACE"></i></li>';
+
+  // Do the truffle shuffle!!
+  cards = shuffle(cards)
+
+  // Walk through the shuffled cards
+  for (let card of cards) {
+    // Add the card to the deck
+    document.querySelector(".deck").insertAdjacentHTML('beforeend', card_html.replace(/REPLACE/g, card))
+  }
+
+  // Reattach event listener
+  listen_for_clicks()
+}
+
+shuffle_deck()
+
+
+
+
+
+
+
+
+// Set up our event listeners
+function listen_for_clicks() {
+  // Walk through all the existing cards
+  for (let card of document.querySelectorAll(".card")) {
+    // Create our onclick event
+    card.onclick = function(event) {
+      // Find the name of the card that was clicked
+      let name = event.target.dataset.cardName
+
+      // Change the class of the clicked card to open it
+      event.target.className = "card open show"
+    }
+  }
+}
+
+listen_for_clicks()
 
 
 /*
