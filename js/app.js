@@ -1,73 +1,109 @@
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+/* BEGIN */
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  // Set up default vars
+  let open_cards = []
 
-    return array;
-}
+  // First, shuffle our deck
+  shuffle_deck()
 
+/* CARD MANAGEMENT */
+  function shuffle_deck() {
+    // Clear the deck
+    document.querySelector(".deck").innerHTML = ""
 
+    // List of our available cards
+    let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "anchor",
+                 "leaf", "bicycle", "diamond", "bomb", "leaf", "bomb", "bolt",
+                 "bicycle", "paper-plane-o", "cube"];
 
+    // Card html template
+    const card_html = '<li class="card" data-card-name="REPLACE"><i class="fa fa-REPLACE"></i></li>';
 
+    // Do the truffle shuffle!!
+    cards = shuffle(cards)
 
-
-function shuffle_deck() {
-  // Clear the deck
-  document.querySelector(".deck").innerHTML = ""
-
-  // List of our available cards
-  let cards = ["diamond", "paper-plane-o", "anchor", "bolt", "cube", "anchor",
-               "leaf", "bicycle", "diamond", "bomb", "leaf", "bomb", "bolt",
-               "bicycle", "paper-plane-o", "cube"];
-
-  // Card html template
-  const card_html = '<li class="card" data-card-name="REPLACE"><i class="fa fa-REPLACE"></i></li>';
-
-  // Do the truffle shuffle!!
-  cards = shuffle(cards)
-
-  // Walk through the shuffled cards
-  for (let card of cards) {
-    // Add the card to the deck
-    document.querySelector(".deck").insertAdjacentHTML('beforeend', card_html.replace(/REPLACE/g, card))
-  }
-
-  // Reattach event listener
-  listen_for_clicks()
-}
-
-shuffle_deck()
-
-
-
-
-
-
-
-
-// Set up our event listeners
-function listen_for_clicks() {
-  // Walk through all the existing cards
-  for (let card of document.querySelectorAll(".card")) {
-    // Create our onclick event
-    card.onclick = function(event) {
-      // Find the name of the card that was clicked
-      let name = event.target.dataset.cardName
-
-      // Change the class of the clicked card to open it
-      event.target.className = "card open show"
+    // Walk through the shuffled cards
+    for (let card of cards) {
+      // Add the card to the deck
+      document.querySelector(".deck").insertAdjacentHTML('beforeend', card_html.replace(/REPLACE/g, card))
     }
   }
-}
 
-listen_for_clicks()
+  // Open the given card
+  function open_card(element) {
+    // If we are opening a "third" card, close any open ones
+    if (open_cards.length == 2) { close_open_cards() }
+
+    // Save the current card name in the open_cards array
+    open_cards.push(element.dataset.cardName)
+
+    // Set the css class to open the card
+    element.className = "card open show"
+  }
+
+  // Close any open cards and reset the open cards var
+  function close_open_cards() {
+    open_cards = []
+    for (let card of document.querySelectorAll(`.open.show`)) {
+      card.className = "card"
+    }
+  }
+
+  // Lock winning cards
+  function lock_cards() {
+    for (let card of document.querySelectorAll(`.open.show`)) {
+      card.className = "card open match"
+    }
+  }
+
+/* GAME LOGIC */
+
+  function cards_match() {
+    return open_cards[0] == open_cards[1]
+  }
+
+/* EVENT LISTENERS */
+
+  // Listen to all clicks on the page, proceed if the target was a card
+  document.addEventListener("click", function(event) {
+    if (event.target.className != "card") { return true } // Only handle events for a card element
+
+    card_element = event.target // Get our card element
+
+    open_card(card_element) // Open the card
+
+    // Check if there are two open cards that match
+    if (cards_match()) {
+      // Lock the cards if they are the same
+      lock_cards()
+    }
+  })
+
+/* SUPPORT */
+
+  // Shuffle function from http://stackoverflow.com/a/2450976
+  function shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      while (currentIndex !== 0) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+  }
+
+
+
+
+
+
+
+
+
 
 
 /*
