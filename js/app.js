@@ -56,6 +56,15 @@
     }
   }
 
+  // Mark cards as failed
+  function fail_cards() {
+    if (open_cards.length == 2) {
+      for (let card of document.querySelectorAll(`.open.show`)) {
+        card.className = "card open show fail"
+      }
+    }
+  }
+
 /* GAME LOGIC */
 
   function cards_match() {
@@ -76,6 +85,8 @@
     if (cards_match()) {
       // Lock the cards if they are the same
       lock_cards()
+    } else {
+      fail_cards()
     }
   })
 
