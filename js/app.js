@@ -2,6 +2,9 @@
 
   // Set up default vars
   let open_cards = []
+  let moves = 0
+  let stars = 5
+  let timer = 0
 
   // First, shuffle our deck
   shuffle_deck()
@@ -71,6 +74,35 @@
     return open_cards[0] == open_cards[1]
   }
 
+/* GAME FUNCTIONS */
+  function restart() {
+    // Snýr við spilum sem eru valin eða mödsuð
+    shuffle_deck()
+
+    // endurstillir teljara
+    update_moves(0)
+
+    // endurstillir stjörnur
+    update_stars(5)
+
+    // Endurstillir tíma
+    reset_timer()
+  }
+
+  function update_moves(move) {
+    moves = move
+    // TODO: UPDATE moves UI
+  }
+
+  function update_stars(star_count) {
+    stars = star_count
+  }
+
+  function reset_timer() {
+    timer = 0
+  }
+
+
 /* EVENT LISTENERS */
 
   // Listen to all clicks on the page, proceed if the target was a card
@@ -106,10 +138,6 @@
 
       return array;
   }
-
-
-
-
 
 
 
