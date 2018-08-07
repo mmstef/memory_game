@@ -96,20 +96,26 @@
 
   function update_stars(star_count) {
     stars = star_count
-    const star_html = '<li><i class="fa fa-star"></i></li>'
+    const star_html = '<li><i class="fa fa-star"></i></li>\n'
+    const empty_star_html = '<li><i class="fa fa-star-o"></i></li>\n'
+
     document.querySelector("ul.stars").innerHTML = ''
 
     for(let i = 0;i < star_count;i++) {
       document.querySelector("ul.stars").insertAdjacentHTML('beforeend', star_html)
     }
+
+    for(let i = 0;i < (5 - star_count);i++) {
+      document.querySelector("ul.stars").insertAdjacentHTML('beforeend', empty_star_html)
+    }
   }
 
   function calculate_stars() {
-    if (moves < 25) { update_stars(5) }
-    else if (moves < 35) { update_stars(4) }
-    else if (moves < 45) { update_stars(3) }
-    else if (moves < 55) { update_stars(2) }
-    else if (moves >= 55) { update_stars(1) }
+    if (moves < 12) { update_stars(5) }
+    else if (moves < 17) { update_stars(4) }
+    else if (moves < 22) { update_stars(3) }
+    else if (moves < 27) { update_stars(2) }
+    else if (moves >= 28) { update_stars(1) }
   }
 
   function reset_timer() {
@@ -144,7 +150,9 @@
 
     open_card(card_element) // Open the card
 
-    update_moves(moves + 1) // Update moves counter
+    if (open_cards.length == 2) {
+      update_moves(moves + 1) // Update moves counter
+    }
 
     calculate_stars()
 
