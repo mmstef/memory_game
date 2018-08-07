@@ -74,6 +74,10 @@
     return open_cards[0] == open_cards[1]
   }
 
+  function game_over() {
+    return document.querySelectorAll(".card.match").length == 16
+  }
+
 /* GAME FUNCTIONS */
   function restart() {
     // Snýr við spilum sem eru valin eða mödsuð
@@ -87,6 +91,9 @@
 
     // Endurstillir tíma
     reset_timer()
+
+    // Loka end screen
+    close_end_screen()
   }
 
   function update_moves(move) {
@@ -99,14 +106,16 @@
     const star_html = '<li><i class="fa fa-star"></i></li>\n'
     const empty_star_html = '<li><i class="fa fa-star-o"></i></li>\n'
 
-    document.querySelector("ul.stars").innerHTML = ''
+    for (let qs of ["ul.stars", "ul.end-stars"]) {
+      document.querySelector(qs).innerHTML = ''
 
-    for(let i = 0;i < star_count;i++) {
-      document.querySelector("ul.stars").insertAdjacentHTML('beforeend', star_html)
-    }
+      for(let i = 0;i < star_count;i++) {
+        document.querySelector(qs).insertAdjacentHTML('beforeend', star_html)
+      }
 
-    for(let i = 0;i < (5 - star_count);i++) {
-      document.querySelector("ul.stars").insertAdjacentHTML('beforeend', empty_star_html)
+      for(let i = 0;i < (5 - star_count);i++) {
+        document.querySelector(qs).insertAdjacentHTML('beforeend', empty_star_html)
+      }
     }
   }
 
@@ -135,7 +144,17 @@
     } else {
       return 0
     }
+  }
 
+  function close_end_screen() {
+    document.querySelector(".end-screen.open").className = "end-screen"
+    document.querySelector(".end-screen-content.open").className = "end-screen-content"
+  }
+
+  function show_end_screen() {
+    document.querySelector(".end-screen-content .game-duration").innerHTML = get_game_duration()
+    document.querySelector(".end-screen").className = "end-screen open"
+    document.querySelector(".end-screen-content").className = "end-screen-content open"
   }
 
 
@@ -164,6 +183,10 @@
       lock_cards()
     } else {
       fail_cards()
+    }
+
+    if (game_over()) {
+      show_end_screen()
     }
   })
 

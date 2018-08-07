@@ -151,14 +151,14 @@ h1 {
     margin-bottom: 10px;
 }
 
-.score-panel .stars {
+.score-panel .stars, .end-stars {
     margin: 0;
     padding: 0;
     display: inline-block;
     margin: 0 5px 0 0;
 }
 
-.score-panel .stars li {
+.score-panel .stars li, .end-stars li {
     list-style: none;
     display: inline-block;
 }
@@ -166,4 +166,56 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+.end-screen {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0px;
+  background-color: #fff;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.end-screen.open {
+  top: 0;
+  height: 100%;
+}
+
+.end-screen-content {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+
+  transition: visibility 0s, opacity 0.8s linear;
+
+  visibility: hidden;
+  opacity: 0;
+}
+
+.end-screen-content .fa-check-circle-o {
+  font-size: 60px;
+  color: #009987;
+}
+
+.end-screen-content.open {
+  transition-delay: 0.5s;
+  visibility: visible;
+  opacity: 1;
+}
+
+button#new-game {
+  clear: both;
+  margin-top: 20px;
+  background-color: #009987;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #00B3A1;
 }
