@@ -116,6 +116,22 @@
     timer = 0
   }
 
+  function start_timer() {
+    // Ef timer er ekki í gangi, start timer
+    if (timer == 0) {
+      timer = window.performance.now()
+    }
+  }
+
+  function get_game_duration() {
+    if (timer > 0) {
+      return Math.round((window.performance.now() - timer)/1000)
+    } else {
+      return 0
+    }
+
+  }
+
 
 
 /* EVENT LISTENERS */
@@ -131,6 +147,8 @@
     update_moves(moves + 1) // Update moves counter
 
     calculate_stars()
+
+    start_timer()
 
     // Check if there are two open cards that match
     if (cards_match()) {
