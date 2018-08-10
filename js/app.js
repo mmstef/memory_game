@@ -9,6 +9,11 @@
   // First, shuffle our deck
   shuffle_deck()
 
+  // Set up a loop to update the timer
+  setInterval(function() {
+    document.querySelector(".timer").innerHTML = get_game_duration()
+  }, 1000)
+
 /* CARD MANAGEMENT */
   function shuffle_deck() {
     // Clear the deck
