@@ -6,7 +6,7 @@
   let stars = 5
   let timer = 0
 
-  // First, shuffle our deck
+  // Start by shuffling our deck
   shuffle_deck()
 
   // Set up a loop to update the timer
@@ -79,26 +79,18 @@
     return open_cards[0] == open_cards[1]
   }
 
+  // Game is over if all cards have been matched
   function game_over() {
     return document.querySelectorAll(".card.match").length == 16
   }
 
 /* GAME FUNCTIONS */
   function restart() {
-    // Snýr við spilum sem eru valin eða mödsuð
-    shuffle_deck()
-
-    // endurstillir teljara
-    update_moves(0)
-
-    // endurstillir stjörnur
-    update_stars(5)
-
-    // Endurstillir tíma
-    reset_timer()
-
-    // Loka end screen
-    close_end_screen()
+    shuffle_deck()      // First, shuffle our deck
+    update_moves(0)     // Set our moves as 0
+    update_stars(5)     // Reset stars to 5
+    reset_timer()       // Reset our timer
+    close_end_screen()  // Close the end screen if it is open
   }
 
   function update_moves(move) {
@@ -108,9 +100,12 @@
 
   function update_stars(star_count) {
     stars = star_count
+
+    // Create our star templates for full and empty stars
     const star_html = '<li><i class="fa fa-star"></i></li>\n'
     const empty_star_html = '<li><i class="fa fa-star-o"></i></li>\n'
 
+    // Update both the main screen star display and the end screen display
     for (let qs of ["ul.stars", "ul.end-stars"]) {
       document.querySelector(qs).innerHTML = ''
 
@@ -124,6 +119,7 @@
     }
   }
 
+  // Calculate how many stars the current move count deserves
   function calculate_stars() {
     if (moves < 12) { update_stars(5) }
     else if (moves < 17) { update_stars(4) }
@@ -137,12 +133,13 @@
   }
 
   function start_timer() {
-    // Ef timer er ekki í gangi, start timer
+    // If the timer is not running, start it
     if (timer == 0) {
       timer = window.performance.now()
     }
   }
 
+  // Return the current game duration or 0 if the game is not running
   function get_game_duration() {
     if (timer > 0) {
       return Math.round((window.performance.now() - timer)/1000)
@@ -187,9 +184,11 @@
       // Lock the cards if they are the same
       lock_cards()
     } else {
+      // Display the fail animation
       fail_cards()
     }
 
+    // Show the end screen if the game has been won
     if (game_over()) {
       show_end_screen()
     }
@@ -211,20 +210,3 @@
 
       return array;
   }
-
-
-
-
-
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
