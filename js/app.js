@@ -16,6 +16,8 @@
 
 /* CARD MANAGEMENT */
   function shuffle_deck() {
+    open_cards = []
+
     // Clear the deck
     document.querySelector(".deck").innerHTML = ""
 
