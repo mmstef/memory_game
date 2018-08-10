@@ -219,3 +219,19 @@ button#new-game {
   border-radius: 3px;
   border: 1px solid #00B3A1;
 }
+
+@media screen and (max-width: 820px), screen and (max-height: 820px) {
+  .deck {
+    width: calc(100vmin - 20px);
+    min-height: calc(100vmin - 20px);
+  }
+
+  .deck .card {
+    width: calc(calc(calc(100vmin - 84px) / 4) - 10px);
+    height: calc(calc(calc(100vmin - 84px) / 4) - 10px);
+  }
+
+  .score-panel {
+    width: 88vmin;
+  }
+}
