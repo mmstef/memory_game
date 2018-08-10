@@ -5,4 +5,5 @@ as few moves as possible and see how well you do with a star rating.
 
 ### Dependencies
 
-All you need is a browser and you're good to go!
+Memory Game has two external dependencies. The Coda font from Google Fonts and
+various Font Awesome icons from Font Awesome.
